@@ -52,6 +52,7 @@ class configurePimAction extends basePimAction {
 
                 $this->_saveConfigValue($post, 'chkDeprecateFields', ConfigService::KEY_PIM_SHOW_DEPRECATED);
                 $this->_saveConfigValue($post, 'chkShowSSN', ConfigService::KEY_PIM_SHOW_SSN);
+                $this->_saveConfigValue($post, 'chkShowFPN', ConfigService::KEY_PIM_SHOW_FPN);
                 $this->_saveConfigValue($post, 'chkShowSIN', ConfigService::KEY_PIM_SHOW_SIN);
                 $this->_saveConfigValue($post, 'chkShowTax', ConfigService::KEY_PIM_SHOW_TAX_EXEMPTIONS);
                 

@@ -30,11 +30,13 @@ class ConfigPimForm extends sfForm {
         
         $showDeprecatedFields = $orangeConfig->getAppConfValue(ConfigService::KEY_PIM_SHOW_DEPRECATED);
         $showSSN = $orangeConfig->getAppConfValue(ConfigService::KEY_PIM_SHOW_SSN);
+        $showFPN = $orangeConfig->getAppConfValue(ConfigService::KEY_PIM_SHOW_FPN);
         $showSIN = $orangeConfig->getAppConfValue(ConfigService::KEY_PIM_SHOW_SIN);
         $showTax = $orangeConfig->getAppConfValue(ConfigService::KEY_PIM_SHOW_TAX_EXEMPTIONS);
         
         $this->formWidgets['chkDeprecateFields'] = new sfWidgetFormInputCheckbox(array(), array('value' => 'on'));
         $this->formWidgets['chkShowSSN'] = new sfWidgetFormInputCheckbox(array(), array('value' => 'on'));
+        $this->formWidgets['chkShowFPN'] = new sfWidgetFormInputCheckbox(array(), array('value' => 'on'));
         $this->formWidgets['chkShowSIN'] = new sfWidgetFormInputCheckbox(array(), array('value' => 'on'));
         $this->formWidgets['chkShowTax'] = new sfWidgetFormInputCheckbox(array(), array('value' => 'on'));
         
@@ -44,6 +46,9 @@ class ConfigPimForm extends sfForm {
         }
         if ($showSSN) {
             $this->formWidgets['chkShowSSN']->setAttribute('checked', 'checked');
+        }
+        if ($showFPN) {
+            $this->formWidgets['chkShowFPN']->setAttribute('checked', 'checked');
         }
         if ($showSIN) {
             $this->formWidgets['chkShowSIN']->setAttribute('checked', 'checked');
@@ -57,6 +62,7 @@ class ConfigPimForm extends sfForm {
         $this->setValidators(array(
                 'chkDeprecateFields' => new sfValidatorString(array('required' => false)),
                 'chkShowSSN' => new sfValidatorString(array('required' => false)),
+                'chkShowFPN' => new sfValidatorString(array('required' => false)),
                 'chkShowSIN' => new sfValidatorString(array('required' => false)),
                 'chkShowTax' => new sfValidatorString(array('required' => false)),            
             ));

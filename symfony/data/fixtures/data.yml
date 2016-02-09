@@ -9211,6 +9211,9 @@ Config:
   Config_showSSN:
     key: showSSN
     value: '0'
+  Config_showFPN:
+    key: showFPN
+    value: '0'
   Config_showTaxExemptions:
     key: showTaxExemptions
     value: '0'

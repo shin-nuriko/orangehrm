@@ -67,6 +67,11 @@
                         <?php echo $form['chkShowTax']->render(); ?>
                         <?php echo $form['chkShowTax']->renderLabel(__('Show US Tax Exemptions menu')); ?>
                     </li>
+
+                    <li class="checkbox">
+                        <?php echo $form['chkShowFPN']->render(); ?>
+                        <?php echo $form['chkShowFPN']->renderLabel(__('Show Filipino Personal Number (FPN) fields in Personal Details')); ?>
+                    </li>
                     
                 </ol>
                 
@@ -88,6 +93,7 @@
 $(document).ready(function() {
     $("#configPim_chkDeprecateFields").attr('disabled', 'disabled');
     $("#configPim_chkShowSSN").attr('disabled', 'disabled');
+    $("#configPim_chkShowFPN").attr('disabled', 'disabled');
     $("#configPim_chkShowSIN").attr('disabled', 'disabled');
     $("#configPim_chkShowTax").attr('disabled', 'disabled');
     
@@ -96,6 +102,7 @@ $(document).ready(function() {
             $("#btnSave").attr('value', "<?php echo __("Save"); ?>");
             $("#configPim_chkDeprecateFields").removeAttr('disabled');
             $("#configPim_chkShowSSN").removeAttr('disabled');
+            $("#configPim_chkShowFPN").removeAttr('disabled');
             $("#configPim_chkShowSIN").removeAttr('disabled');
             $("#configPim_chkShowTax").removeAttr('disabled');
             

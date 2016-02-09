@@ -173,6 +173,52 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse($returnVal);        
     }
 
+        public function testSetShowPimFPN() {
+
+        $mockDao = $this->getMock('ConfigDao');
+        $mockDao->expects($this->once())
+                 ->method('setValue')
+                 ->with(ConfigService::KEY_PIM_SHOW_FPN, 1);
+
+        $this->configService->setConfigDao($mockDao);
+
+        $this->configService->setShowPimFPN(true);
+        
+        $mockDao = $this->getMock('ConfigDao');
+        $mockDao->expects($this->once())
+                 ->method('setValue')
+                 ->with(ConfigService::KEY_PIM_SHOW_FPN, 0);
+
+        $this->configService->setConfigDao($mockDao);
+
+        $this->configService->setShowPimFPN(false);        
+    }
+
+    public function testShowPimFPN() {
+
+        $mockDao = $this->getMock('ConfigDao');
+        $mockDao->expects($this->once())
+                 ->method('getValue')
+                 ->with(ConfigService::KEY_PIM_SHOW_FPN)
+                 ->will($this->returnValue('1'));
+
+        $this->configService->setConfigDao($mockDao);
+
+        $returnVal = $this->configService->showPimFPN();
+        $this->assertTrue($returnVal);
+
+        $mockDao = $this->getMock('ConfigDao');
+        $mockDao->expects($this->once())
+                 ->method('getValue')
+                 ->with(ConfigService::KEY_PIM_SHOW_FPN)
+                 ->will($this->returnValue('0'));
+
+        $this->configService->setConfigDao($mockDao);
+
+        $returnVal = $this->configService->showPimFPN();
+        $this->assertFalse($returnVal);        
+    }
+
     public function testSetShowPimSIN() {
 
         $mockDao = $this->getMock('ConfigDao');

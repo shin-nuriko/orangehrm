@@ -93,6 +93,9 @@ class OrangeConfig {
             case ConfigService::KEY_PIM_SHOW_SSN:
                 return $configService->showPimSSN();
                 break;
+            case ConfigService::KEY_PIM_SHOW_FPN:
+                return $configService->showPimFPN();
+                break;
             case ConfigService::KEY_PIM_SHOW_SIN:
                 return $configService->showPimSIN();
                 break;
@@ -134,6 +137,9 @@ class OrangeConfig {
                 break;
             case ConfigService::KEY_PIM_SHOW_SSN:
                 return $configService->setShowPimSSN($value);
+                break;
+            case ConfigService::KEY_PIM_SHOW_FPN:
+                return $configService->setShowPimFPN($value);
                 break;
             case ConfigService::KEY_PIM_SHOW_SIN:
                 return $configService->setShowPimSIN($value);

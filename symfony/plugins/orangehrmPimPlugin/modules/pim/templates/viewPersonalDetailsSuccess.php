@@ -78,7 +78,12 @@ use_stylesheet(plugin_web_path('orangehrmPimPlugin', 'css/viewPersonalDetailsSuc
                             <label for="personal_txtSINNo"><?php echo __('SIN Number'); ?></label>
                             <?php echo $form['txtSINNo']->render(array("class" => "editable", "maxlength" => 30)); ?>
                         </li>                    
-                        <?php endif; ?>                    
+                        <?php endif; ?>    
+                        <?php if ($showFPN) : ?>
+                        <li class="new">
+                            SSS NO, Philhealth No, Pag-ibig No, Tin No
+                        </li>                    
+                        <?php endif; ?>                
                     </ol>
                     <ol>
                         <li class="radio">

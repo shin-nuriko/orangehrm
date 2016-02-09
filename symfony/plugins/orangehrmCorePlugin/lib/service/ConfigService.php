@@ -30,6 +30,7 @@ class ConfigService extends BaseService {
     const KEY_LEAVE_PERIOD_DEFINED = "leave_period_defined";
     const KEY_PIM_SHOW_DEPRECATED = "pim_show_deprecated_fields";
     const KEY_PIM_SHOW_SSN = 'pim_show_ssn';
+    const KEY_PIM_SHOW_FPN = 'pim_show_fpn';
     const KEY_PIM_SHOW_SIN = 'pim_show_sin';
     const KEY_PIM_SHOW_TAX_EXEMPTIONS = 'pim_show_tax_exemptions';
     const KEY_TIMESHEET_TIME_FORMAT = 'timesheet_time_format';
@@ -183,12 +184,22 @@ class ConfigService extends BaseService {
         $this->_setConfigValue(self::KEY_PIM_SHOW_SSN, $flag);
     }
 
+    public function setShowPimFPN($value) {
+        $flag = $value ? 1 : 0;
+        $this->_setConfigValue(self::KEY_PIM_SHOW_FPN, $flag);
+    }
+
     /**
      * Show PIM Deprecated Fields
      * @return bool
      */
     public function showPimSSN() {
         $val = $this->_getConfigValue(self::KEY_PIM_SHOW_SSN);
+        return ($val == 1);
+    }
+
+    public function showPimFPN() {
+        $val = $this->_getConfigValue(self::KEY_PIM_SHOW_FPN);
         return ($val == 1);
     }
 
