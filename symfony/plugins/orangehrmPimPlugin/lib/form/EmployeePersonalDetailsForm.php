@@ -203,7 +203,11 @@ class EmployeePersonalDetailsForm extends BaseForm {
             'txtNICNo' => new sfWidgetFormInputText(),
             'txtSINNo' => new sfWidgetFormInputText(),
             'DOB' => new ohrmWidgetDatePicker(array(), array('id' => 'personal_DOB')),
-            'txtLicenNo' => new sfWidgetFormInputText());
+            'txtLicenNo' => new sfWidgetFormInputText(),
+            'txtFPNSSS' => new sfWidgetFormInputText(),
+            'txtFPNHealth' => new sfWidgetFormInputText(),
+            'txtFPNTIN' => new sfWidgetFormInputText(),
+            'txtFPNPagibig' => new sfWidgetFormInputText());
 
 
         $widgets['txtEmployeeId']->setAttribute('value', $this->employee->employeeId);
@@ -211,6 +215,10 @@ class EmployeePersonalDetailsForm extends BaseForm {
         $widgets['txtSINNo']->setAttribute('value', $this->employee->sin);
         $widgets['DOB']->setAttribute('value', set_datepicker_date_format($this->employee->emp_birthday));
         $widgets['txtLicenNo']->setAttribute('value', $this->employee->licenseNo);
+        //$widgets['txtFPNSSS']->setAttribute('value', $this->employee->SSSNo);
+        //$widgets['txtFPNTIN']->setAttribute('value', $this->employee->TINNo);
+        //$widgets['txtFPNHealth']->setAttribute('value', $this->employee->HealthNo);
+        //$widgets['txtFPNPagibig']->setAttribute('value', $this->employee->PagibigNo);
 
         return $widgets;
     }
@@ -265,6 +273,10 @@ class EmployeePersonalDetailsForm extends BaseForm {
             $employee->sin = $this->getValue('txtSINNo');
             $employee->emp_birthday = $this->getValue('DOB');
             $employee->licenseNo = $this->getValue('txtLicenNo');
+           // $employee->SSSNo = $this->getValue('txtFPNSSS');
+           // $employee->TINNo = $this->getValue('txtFPNTIN');
+           // $employee->HealthNo = $this->getValue('txtFPNHealth');
+           // $employee->PagibigNo = $this->getValue('txtFPNPagibig');
         }
 
         return $employee;

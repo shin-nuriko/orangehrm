@@ -50,6 +50,26 @@ use_stylesheet(plugin_web_path('orangehrmPimPlugin', 'css/viewPersonalDetailsSuc
                             </ol>    
                         </li>
                     </ol>
+                    <ol> 
+                        <?php if ($showFPN) : ?>
+                        <li>
+                            <label for="personal_txtFPNSSS"><?php echo __("SSS Number"); ?></label>
+                            <?php echo $form['txtFPNSSS']->render(array("maxlength" => 30, "class" => "editable")); ?>
+                        </li>
+                        <li>
+                            <label for="personal_txtFPNTIN"><?php echo __("TIN Number"); ?></label>
+                            <?php echo $form['txtFPNTIN']->render(array("maxlength" => 30, "class" => "editable")); ?>
+                        </li>
+                        <li>
+                            <label for="personal_txtFPNHealth"><?php echo __("Philhealth Number"); ?></label>
+                            <?php echo $form['txtFPNHealth']->render(array("maxlength" => 30, "class" => "editable")); ?>
+                        </li>
+                        <li>
+                            <label for="personal_txtFPNPagibig"><?php echo __("Pag-ibig Number"); ?></label>
+                            <?php echo $form['txtFPNPagibig']->render(array("maxlength" => 30, "class" => "editable")); ?>
+                        </li>                    
+                        <?php endif; ?>   
+                    </ol>
                     <ol>
                         <li>
                             <label for="personal_txtEmployeeId"><?php echo __('Employee Id'); ?></label>
@@ -78,12 +98,7 @@ use_stylesheet(plugin_web_path('orangehrmPimPlugin', 'css/viewPersonalDetailsSuc
                             <label for="personal_txtSINNo"><?php echo __('SIN Number'); ?></label>
                             <?php echo $form['txtSINNo']->render(array("class" => "editable", "maxlength" => 30)); ?>
                         </li>                    
-                        <?php endif; ?>    
-                        <?php if ($showFPN) : ?>
-                        <li class="new">
-                            SSS NO, Philhealth No, Pag-ibig No, Tin No
-                        </li>                    
-                        <?php endif; ?>                
+                        <?php endif; ?>   
                     </ol>
                     <ol>
                         <li class="radio">
