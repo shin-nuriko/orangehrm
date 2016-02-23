@@ -127,9 +127,18 @@ class viewPrintDetailsAction extends basePimAction {
 
     public function getContactDetails($employee) {
         $data = array();
-        $data['Present Address'] = '';
+        $data['Current Address'] = $employee->street1 
+                           . ' ' . $employee->street2
+                           . ', '. $employee->city
+                           . ', '. $employee->province
+                           . ', '. $employee->country
+                           . ' '. $employee->emp_zipcode;
         $data['Provincial Address'] = '';
-        $data['Contact No.'] = '';
+        $data['Work No.'] = $employee->emp_work_telephone;
+        $data['Mobile No.'] = $employee->emp_mobile;
+        $data['Home No.'] = $employee->emp_hm_telephone;
+        $data['Work Email'] = $employee->emp_work_email;
+        $data['Other Email'] = $employee->emp_oth_email;
         return $data;
     }
 
