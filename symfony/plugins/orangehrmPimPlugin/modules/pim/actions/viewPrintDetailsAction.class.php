@@ -31,6 +31,13 @@ class viewPrintDetailsAction extends basePimAction {
         return $this->jobTitleService;
     }
 
+    public function getCustomFieldsService() {
+        if(is_null($this->customFieldsService)) {
+            $this->customFieldsService = new CustomFieldConfigurationService();
+        }
+        return $this->customFieldsService;
+    }
+
     private function _getJobTitle($jobTitleId) {
         $jobTitle = '';
         $jobTitleList = $this->getJobTitleService()->getJobTitleList("", "", false);
@@ -96,44 +103,91 @@ class viewPrintDetailsAction extends basePimAction {
         return $years;
     }
 
+    private function _getJobCategory($catId) {
+        $jobService = new JobCategoryService();
+        $categories = $jobService->getJobCategoryList();
+
+        foreach ($categories as $category) {
+            if ($category->getId() == $catId ) {
+                return $category->getName();
+            }
+        }
+        return;
+    }
+
     public function getJobDetails($employee) {
         $data = array();
-        $jobTitleId = $employee->job_title_code;
-        $empTerminatedId = $employee->termination_id;
-        $jobTitle = $this->_getJobTitle($jobTitleId);
         $data['Employee ID'] = $employee->employeeId;
-        $data['Designation'] = $jobTitle;
+        $data['Designation'] = $this->_getJobTitle($employee->job_title_code);
+        $data['Division'] = $this->_getJobCategory($employee->eeo_cat_code);
+        $data['Section'] = '';
         $data['Employee Status'] = $this->_getEmpStatus($employee->emp_status);
         $data['Date Employed'] = $employee->getJoinedDate();
         $data['Years of Service'] = $employee->getYearOfService();
         return $data;
     }
 
+    /*
+    returns array("custom1"=>"fieldname","custom2"=>"fieldname")
+    actual custom field values can be accessed by employee service
+    ex. $employee->custom1;
+    */
+    private function _getCustomFields($customFieldsService, $screen) {
+        $customFields = array();
+        $customFieldList = $customFieldsService->getCustomFieldList($screen);
+        foreach ($customFieldList as $customField) {
+            $fieldId = "custom" . $customField->getId();
+            $fieldName = $customField->getName();
+            $customFields[$fieldId] = $fieldName;
+        }
+        return $customFields;
+    }
+
+    /*
+    custom field names can be changed by Admin which can affect array_search() result
+    */
+    private function _getCustomFieldId($customFields, $customFieldName) {
+        $customFieldId = array_search($customFieldName, $customFields);
+        return $customFieldId;
+    }
+
     public function getPersonalDetails($employee) {
         $data = array();
+        $customPersonalDetails = $this->_getCustomFields($this->getCustomFieldsService(), CustomField::SCREEN_PERSONAL_DETAILS);
         $data['Gender'] = $this->_getGender($employee->emp_gender);
         $data['Citizenship'] = $this->_getNationality($employee->nation_code);
         $data['Civil Status'] = $employee->emp_marital_status;
-        $data['Religion'] = '';
         $data['Birth Date'] = $employee->emp_birthday;
         $data['Age'] = $this->_getAge($employee->emp_birthday);
-        $data['SSS No.'] = '';
-        $data['TIN No.'] = '';
-        $data['Pag-ibig No.'] = '';
-        $data['Philhealth No.'] = '';
+
+        /* AAC specific custom fields, custom field name should be exact */
+        $religion   = $this->_getCustomFieldId($customPersonalDetails, 'Religion');
+        $sss        = $this->_getCustomFieldId($customPersonalDetails, 'SSS No.');
+        $tin        = $this->_getCustomFieldId($customPersonalDetails, 'Tin No.');
+        $pagibig    = $this->_getCustomFieldId($customPersonalDetails, 'Pag-ibig No.');
+        $philhealth = $this->_getCustomFieldId($customPersonalDetails, 'Philhealth No.');
+        $data['Religion'] = $employee->$religion; //$employee->custom5;
+        $data['SSS No.'] = $employee->$sss;
+        $data['TIN No.'] = $employee->$tin;
+        $data['Pag-ibig No.'] = $employee->$pagibig;
+        $data['Philhealth No.'] = $employee->$philhealth;
 
         return $data;
     }
 
     public function getContactDetails($employee) {
         $data = array();
+        $customContactDetails = $this->_getCustomFields($this->getCustomFieldsService(), CustomField::SCREEN_CONTACT_DETAILS);
         $data['Current Address'] = $employee->street1 
                            . ' ' . $employee->street2
                            . ', '. $employee->city
                            . ', '. $employee->province
                            . ', '. $employee->country
                            . ' '. $employee->emp_zipcode;
-        $data['Provincial Address'] = '';
+        /* AAC specific custom fields, custom field name should be exact */
+        $provincialAddress   = $this->_getCustomFieldId($customContactDetails, 'Provincial Address');
+        $data['Provincial Address'] = $employee->$provincialAddress;
+
         $data['Work No.'] = $employee->emp_work_telephone;
         $data['Mobile No.'] = $employee->emp_mobile;
         $data['Home No.'] = $employee->emp_hm_telephone;
@@ -152,7 +206,6 @@ class viewPrintDetailsAction extends basePimAction {
 
         $this->personalInformationPermission = $this->getDataGroupPermissions('personal_information', $empNumber);
 
-
         if (!$this->IsActionAccessible($empNumber)) {
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
@@ -163,7 +216,6 @@ class viewPrintDetailsAction extends basePimAction {
                 $this->personal_details = $this->getPersonalDetails($this->employee);
                 $this->job_details = $this->getJobDetails($this->employee);
                 $this->contact_details = $this->getContactDetails($this->employee);
-                        var_dump($this->contact_details);
         }
 
     }
