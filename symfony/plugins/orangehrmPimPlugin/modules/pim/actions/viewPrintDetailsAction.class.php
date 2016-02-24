@@ -231,7 +231,7 @@ class viewPrintDetailsAction extends basePimAction {
 
     public function getEducationDetails($employee) {
         $data = array();
-        $educationList = $this->employee->getEmployeeEducation($this->empNumber);
+        $educationList = $employee->getEmployeeEducation($this->empNumber);
         foreach($educationList as $education) {
             $data[] = array(
                         'Level' => $this->_getEducationLevel($education->educationId),
@@ -239,6 +239,21 @@ class viewPrintDetailsAction extends basePimAction {
                         'Institute' => $education->institute,
                         'Start Year' => $education->startDate,
                         'End Year' => $education->endDate);
+        }
+        return $data;
+    }
+
+    public function getEmergencyContactDetails() {
+        $data = array();
+        $contactList = $this->getEmployeeService()->getEmployeeEmergencyContacts($this->empNumber);
+        foreach ($contactList as $contact) {
+            $data[] = array(
+                    'Name' => $contact->name,
+                    'Relationship' => $contact->relationship,
+                    'Home Telephone' => $contact->home_phone,
+                    'Mobile' => $contact->mobile_phone,
+                    'Work Telephone' => $contact->office_phone
+                );
         }
         return $data;
     }
@@ -264,10 +279,7 @@ class viewPrintDetailsAction extends basePimAction {
                 $this->job_details = $this->getJobDetails($this->employee);
                 $this->contact_details = $this->getContactDetails($this->employee);
                 $this->education_details = $this->getEducationDetails($this->employee);
-
-
-                //var_dump($educ);
-                //$this->_getEducationList($educ);
+                $this->emergency_details = $this->getEmergencyContactDetails();
         }
 
     }

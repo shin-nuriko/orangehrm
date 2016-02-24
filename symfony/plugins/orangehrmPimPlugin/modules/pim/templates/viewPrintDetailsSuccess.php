@@ -50,5 +50,26 @@ use_stylesheet(plugin_web_path('orangehrmPimPlugin', 'css/viewPrintDetailsSucces
 			<?php }?>
 		</ol>
 	</div>
+</br>
+	<div id="emergency-contact-details">
+		<table>
+			<tr>
+				<td>Name</td>
+				<td>Relationship</td>
+				<td>Home Telephone</td>
+				<td>Mobile</td>
+				<td>Work Telephone</td>
+			</tr>
+			<?php foreach ($emergency_details as $contact) { ?>
+			<tr>
+				<td><?php echo $contact['Name']?></td>
+				<td><?php echo $contact['Relationship']?></td>
+				<td><?php echo $contact['Home Telephone']?></td>
+				<td><?php echo $contact['Mobile']?></td>
+				<td><?php echo $contact['Work Telephone']?></td>
+			</tr>
+			<?php } ?>
+		</table>
+	</div>
 </div>
  
