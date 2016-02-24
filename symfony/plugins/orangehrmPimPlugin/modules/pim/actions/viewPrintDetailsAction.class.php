@@ -115,12 +115,35 @@ class viewPrintDetailsAction extends basePimAction {
         return;
     }
 
+    public function getCompanyStructureService() {
+        if (is_null($this->companyStructureService)) {
+            $this->companyStructureService = new CompanyStructureService();
+            $this->companyStructureService->setCompanyStructureDao(new CompanyStructureDao());
+        }
+        return $this->companyStructureService;
+    }
+
+    private function _getSubDivision($subUnitId) {
+        $treeObject = $this->getCompanyStructureService()->getSubunitTreeObject();
+        $tree = $treeObject->fetchTree();
+
+        foreach ($tree as $node) {
+            if ($node->getId() != 1) {
+                if ($node->getId() == $subUnitId) {
+                    return $node['name'];
+                }
+                $subUnitList[$node->getId()] = str_repeat('&nbsp;&nbsp;', $node['level'] - 1) . $node['name'];
+            }
+        }
+        return;
+    }
+
     public function getJobDetails($employee) {
         $data = array();
         $data['Employee ID'] = $employee->employeeId;
         $data['Designation'] = $this->_getJobTitle($employee->job_title_code);
         $data['Division'] = $this->_getJobCategory($employee->eeo_cat_code);
-        $data['Section'] = '';
+        $data['Section'] = $this->_getSubDivision($employee->work_station);
         $data['Employee Status'] = $this->_getEmpStatus($employee->emp_status);
         $data['Date Employed'] = $employee->getJoinedDate();
         $data['Years of Service'] = $employee->getYearOfService();
@@ -196,6 +219,30 @@ class viewPrintDetailsAction extends basePimAction {
         return $data;
     }
 
+    private function _getEducationLevel($educationId) {
+        $educationService = new EducationService();
+        $educationList = $educationService->getEducationList();
+        foreach($educationList as $education) {
+            if ($education->getId() == $educationId) {
+                return $education->getName();
+            }
+        }
+    }
+
+    public function getEducationDetails($employee) {
+        $data = array();
+        $educationList = $this->employee->getEmployeeEducation($this->empNumber);
+        foreach($educationList as $education) {
+            $data[] = array(
+                        'Level' => $this->_getEducationLevel($education->educationId),
+                        'Degree' => $education->major,
+                        'Institute' => $education->institute,
+                        'Start Year' => $education->startDate,
+                        'End Year' => $education->endDate);
+        }
+        return $data;
+    }
+
     public function execute($request) {
         $this->$personal_details;
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
@@ -216,6 +263,11 @@ class viewPrintDetailsAction extends basePimAction {
                 $this->personal_details = $this->getPersonalDetails($this->employee);
                 $this->job_details = $this->getJobDetails($this->employee);
                 $this->contact_details = $this->getContactDetails($this->employee);
+                $this->education_details = $this->getEducationDetails($this->employee);
+
+
+                //var_dump($educ);
+                //$this->_getEducationList($educ);
         }
 
     }

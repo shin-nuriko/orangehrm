@@ -35,5 +35,20 @@ use_stylesheet(plugin_web_path('orangehrmPimPlugin', 'css/viewPrintDetailsSucces
 			<?php }?>
 		</ol>
 	</div>
+</br>
+	<div id="education-details">
+		<ol>
+			<?php foreach ($education_details as $education) { ?>
+				<li style="display:flex;position:relative;">
+					<div class="label"><?php echo $education['Level']; ?></div>
+					<div class="detail">
+						<div class="item"><?php echo $education['Institute'];?></div>
+						<div class="item"><?php echo $education['Degree'];?></div>
+						<div class="item"><?php echo $education['Start Year'];?> - <?php echo $education['End Year']?></div>
+					</div>
+				</li>
+			<?php }?>
+		</ol>
+	</div>
 </div>
  
