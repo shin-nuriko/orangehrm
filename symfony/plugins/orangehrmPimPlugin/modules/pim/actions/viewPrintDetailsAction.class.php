@@ -208,8 +208,8 @@ class viewPrintDetailsAction extends basePimAction {
                            . ', '. $employee->country
                            . ' '. $employee->emp_zipcode;
         /* AAC specific custom fields, custom field name should be exact */
-        $provincialAddress   = $this->_getCustomFieldId($customContactDetails, 'Provincial Address');
-        $data['Provincial Address'] = $employee->$provincialAddress;
+        $provincialAddress   = $this->_getCustomFieldId($customContactDetails, 'Birth Place');
+        $data['Birth Place'] = $employee->$provincialAddress;
 
         $data['Work No.'] = $employee->emp_work_telephone;
         $data['Mobile No.'] = $employee->emp_mobile;
