@@ -25,7 +25,9 @@
             <li<?php echo $listClass; ?>><a href="<?php echo $url; ?>"><?php echo __($label); ?></a></li>
             <?php
         endforeach;
+        $printUrl = url_for($properties['module'] . '/viewPrintDetails?empNumber=' . $empNumber);
         ?>
+        <li><a href="<?php echo $printUrl; ?>" target="blank">View Print</a></li>
         <?php include_component('core', 'ohrmPluginPannel', array('location' => 'pim_left_menu_bottom')); ?>
     </ul>
 

@@ -40,3 +40,5 @@ viewUsTaxExemptionsSuccess:
   layout: freshorange
 addEmployeeSuccess:
   layout: freshorange
+viewPrintDetailsSuccess:
+  has_layout:     false
